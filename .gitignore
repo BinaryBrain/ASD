@@ -9,6 +9,7 @@ Labo 1*
 *.dist
 *.bash
 *.xml
+*.layout
 Labo 2/Sources/Lab 2 - Ex 1/build/*
 Labo 2/Sources/Lab 2 - Ex 1/dist/*
 Labo 2/Sources/Lab 2 - Ex 3/build/*
