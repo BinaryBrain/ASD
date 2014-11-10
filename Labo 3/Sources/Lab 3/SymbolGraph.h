@@ -28,8 +28,8 @@ namespace ASD2
         typedef GraphType Graph; 
     private:
         Graph* g;
-        std::unordered_map<std::string,int> movieMap;
-        std::vector<std::string> movieVector;
+        std::unordered_map<std::string,int> uMap;
+        std::vector<std::string> uVector;
         
     public:
         
@@ -39,7 +39,7 @@ namespace ASD2
         }            
         
         //creation du SymbolGraph a partir du fichier movies.txt
-        SymbolGraph(const std::string& filename) {         
+        SymbolGraph(const std::string& filename, char separator) {         
             //lecture du fichier, ligne par ligne puis element par element (separe par des /)
             std::string line;
             int cnt=0;
@@ -49,28 +49,28 @@ namespace ASD2
             
             while (std::getline(s, line))
             {
-                auto names = ASD2::split(line,'/');
+                auto names = ASD2::split(line,separator);
                 for( auto name : names ){
-                    //std::cout << name << " "; //on affiche le contenu du fichier,
+                    std::cout << name << " "; //on affiche le contenu du fichier,
                     
                     // if name isn't in map, add it and increment
-                    if(!movieMap.count(name)){
-                        movieMap.insert({name,cnt});
-                        movieVector.push_back(name);
+                    if(!uMap.count(name)){
+                        uMap.insert({name,cnt});
+                        uVector.push_back(name);
                         cnt++;
                     }
                     
                     // if actor, add edge with movie
                     if(name != names[0]) {
-                        tempEdges.push_back(std::make_tuple(movieMap[names.at(0)], movieMap[name]));
+                        tempEdges.push_back(std::make_tuple(uMap[names.at(0)], uMap[name]));
                     }
                 }
                 
-                //std::cout << std::endl;
+                std::cout << std::endl;
             }
             s.close();
             
-            g = new GraphUsingAdjacencyLists(movieVector.size());
+            g = new DiGraph(cnt);
             
             for(auto t : tempEdges) {
                 g->addEdge(std::get<0>(t), std::get<1>(t));
@@ -79,23 +79,23 @@ namespace ASD2
         
         //verifie la presence d'un symbole
         bool contains(const std::string& name) {
-            return movieMap.count(name);
+            return uMap.count(name);
         }
         
         //index du sommet correspondant au symbole
         int index(const std::string& name) {
             // throws exception if wrong
-            return movieMap.at(name);
+            return uMap.at(name);
         }
         
         //symbole correspondant au sommet
         std::string name(int idx) {
-            return movieVector.at(idx);
+            return uVector.at(idx);
         }
 
         //symboles adjacents a un symbole
         std::vector<std::string> adjacent(const std::string & name) {
-            return g->adjacent(movieMap.at(name));
+            return g->adjacent(uMap.at(name));
         }
 		
         const Graph& G() {
