@@ -18,22 +18,36 @@ namespace ASD2 {
     class TopologicalSort {
     private:
         /* A DEFINIR */
+        Graph* g;
+        std::vector<int> postOrder;
     
     public:
         //constructeur
         TopologicalSort(const GraphType & g) {
+            this->g = g;/*
+            if(isDAG()) {
+                // stuff?
+            } else {
+                // other stuff?
+                std::cout << "there's a cycle and you suck";
+            }*/
             /* A IMPLEMENTER */
             /* vous devez verifier la presence d'un cycle */
         }
         
         //indique si le graphe est DAG (Directed Acyclic Graph))
         bool IsDAG() {
+            // if cycle, is not dag, blabliblou
             /* A IMPLEMENTER */
             //return ...
         }
         
         //tableau contenant l'ordre de parcours des indexes des sommets dans le graphe
         const std::vector<int>& Order() {
+            DFS<Graph> P(g);
+            P.visit(0, NULL, [&](int w){
+                postOrder.insert(0, w)
+            });
             /* A IMPLEMENTER */
             //return ...
         }
