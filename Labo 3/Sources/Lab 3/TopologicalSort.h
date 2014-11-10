@@ -11,6 +11,8 @@
 #define ASD2_TopologicalSort_h
 
 #include "DirectedCycle.h"
+#include <vector>
+#include <stdlib.h>
 
 namespace ASD2 {
     
@@ -45,7 +47,7 @@ namespace ASD2 {
         //tableau contenant l'ordre de parcours des indexes des sommets dans le graphe
         const std::vector<int>& Order() {
             DFS<Graph> P(g);
-            P.visit(0, NULL, [&](int w){
+            P.visit(0, (int){}, [&](int w){
                 postOrder.insert(0, w)
             });
             /* A IMPLEMENTER */
