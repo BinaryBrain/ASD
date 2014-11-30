@@ -2,15 +2,13 @@
 #include "DiGraph.h"
 
 namespace ASD2 {
-
-    DiGraph::DiGraph(int V) 
-    {
+    DiGraph::DiGraph(int V) {
         adjacencyLists.resize(V);
     }
 
     DiGraph::DiGraph(std::istream& s) {
         int V,E,v,w;
-        
+
         s >> V;
         s >> E;
 
@@ -34,7 +32,7 @@ namespace ASD2 {
     int DiGraph::V() const {
         return (int)adjacencyLists.size();
     }
-    
+
     DiGraph DiGraph::reverse() const {
         DiGraph dg(V());
         for(int v=0;v<V();++v)
@@ -42,5 +40,5 @@ namespace ASD2 {
                 dg.addEdge(w,v);
         return dg;
     }
-    
+
 }

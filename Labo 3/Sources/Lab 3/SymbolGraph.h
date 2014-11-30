@@ -20,21 +20,18 @@
 #include "Util.h"
 #include "GraphUsingAdjacencyLists.h"
 
-namespace ASD2
-{
+namespace ASD2 {
     template<typename GraphType>
-    class SymbolGraph
-    {
+    class SymbolGraph {
         typedef GraphType Graph;
+
     private:
         Graph* g;
         std::unordered_map<std::string,int> uMap;
         std::vector<std::string> uVector;
 
     public:
-
-        ~SymbolGraph()
-        {
+        ~SymbolGraph() {
             delete g;
         }
 
@@ -47,10 +44,9 @@ namespace ASD2
 
             std::ifstream s(filename);
 
-            while (std::getline(s, line))
-            {
+            while (std::getline(s, line)) {
                 auto names = ASD2::split(line,separator);
-                for( auto name : names ){
+                for (auto name: names) {
                     std::cout << name << " "; //on affiche le contenu du fichier,
 
                     // if name isn't in map, add it and increment
@@ -68,11 +64,12 @@ namespace ASD2
 
                 std::cout << std::endl;
             }
+
             s.close();
 
             g = new DiGraph(cnt);
 
-            for(auto t : tempEdges) {
+            for (auto t : tempEdges) {
                 g->addEdge(std::get<0>(t), std::get<1>(t));
             }
         }
@@ -95,7 +92,15 @@ namespace ASD2
 
         //symboles adjacents a un symbole
         std::vector<std::string> adjacent(const std::string & name) const {
-            return g->adjacent(uMap.at(name));
+            auto& adjIdx = g->adjacent(index(name));
+            int n = adjIdx.size();
+            std::vector<std::string> adjStr(n);
+
+            std::transform(adjIdx.cbegin(), adjIdx.cend(), adjStr.begin(), [&](int i) {
+                return this->name(i);
+            });
+
+            return adjStr;
         }
 
         const Graph& G() {

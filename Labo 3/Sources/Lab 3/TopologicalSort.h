@@ -15,41 +15,35 @@
 #include <stdlib.h>
 
 namespace ASD2 {
-    
     template < typename GraphType >
     class TopologicalSort {
     private:
-        /* A DEFINIR */
-        Graph* g;
+        DirectedCycle<GraphType> dc;
         std::vector<int> postOrder;
-    
+
     public:
         //constructeur
-        TopologicalSort(const GraphType & g) {
-            this->g = g;/*
-            if(isDAG()) {
-                // stuff?
+        TopologicalSort(const GraphType & g): dc(g) {
+            if(IsDAG()) {
+
             } else {
-                // other stuff?
-                std::cout << "there's a cycle and you suck";
-            }*/
-            /* A IMPLEMENTER */
-            /* vous devez verifier la presence d'un cycle */
+                std::cout << "there's a cycle.";
+                exit(1);
+            }
         }
-        
+
         //indique si le graphe est DAG (Directed Acyclic Graph))
         bool IsDAG() {
-            // if cycle, is not dag, blabliblou
-            /* A IMPLEMENTER */
-            //return ...
+            return dc.HasCycle();
         }
-        
+
         //tableau contenant l'ordre de parcours des indexes des sommets dans le graphe
         const std::vector<int>& Order() {
-            DFS<Graph> P(g);
+            /* DFS<Graph> P(g);
             P.visit(0, (int){}, [&](int w){
                 postOrder.insert(0, w)
             });
+            */
             /* A IMPLEMENTER */
             //return ...
         }

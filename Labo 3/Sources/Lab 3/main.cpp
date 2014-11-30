@@ -51,8 +51,14 @@ bool checkOrder(const std::vector<int>& order,
 }
 
 int main(int argc, const char * argv[]) {
+    SymbolGraph<DiGraph> sg1("prerequis.txt", ',');
+    SymbolGraph<DiGraph> sg2("prerequis2.txt", ',');
 
-    /* A IMPLEMENTER */
+    TopologicalSort<SymbolGraph<DiGraph>> ts1(sg1);
+    TopologicalSort<SymbolGraph<DiGraph>> ts2(sg2);
+
+    ts1.Order();
+    ts2.Order();
 
     return EXIT_SUCCESS;
 }

@@ -10,25 +10,21 @@
 #ifndef ASD2_DirectedCycle_h
 #define ASD2_DirectedCycle_h
 
+#include <map>
+
 namespace ASD2 {
     template<typename GraphType>
     class DirectedCycle {
     private:
         const GraphType& g;
         bool hasCycle;
-        std::vector<bool> onStack;
-        std::vector<bool> marked;
+        std::map<std::string, bool> onStack;
+        std::map<std::string, bool> marked;
 
-    public:
-        // constructor
-        DirectedCycle(const GraphType& g) {
-            dfs(0);
-        }
-
-        void dfs(int v) {
+        void dfs(std::string v) {
             onStack[v] = true;
 
-            for (int w: g.adjacent(v)) {
+            for (std::string w: g.adjacent(v)) {
                 if (hasCycle) {
                     return;
                 }
@@ -43,6 +39,12 @@ namespace ASD2 {
             onStack[v] = false;
         }
 
+    public:
+        // constructor
+        DirectedCycle(const GraphType& G): g(G) {
+            dfs(g.name(0));
+        }
+
         //indique la presence d'un cycle
         bool HasCycle() {
             return hasCycle;
@@ -51,6 +53,8 @@ namespace ASD2 {
         //liste les indexes des sommets formant une boucle
         std::list<int> Cycle() {
             /* A IMPLEMENTER */
+            // STUB
+            return new std::list<int>();
             //return ...
         }
 
