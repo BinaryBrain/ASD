@@ -27,7 +27,7 @@ namespace ASD2 {
 
     private:
         Graph* g;
-        std::unordered_map<std::string,int> uMap;
+        std::unordered_map<std::string, int> uMap;
         std::vector<std::string> uVector;
 
     public:
@@ -103,12 +103,18 @@ namespace ASD2 {
             return adjStr;
         }
 
+        std::list<int> adjacent(int v) const {
+            return g->adjacent(v);
+        }
+
         const Graph& G() {
             return *g;
         }
 
+        int V() const {
+            return g->V();
+        }
     };
-
 }
 
 #endif	/* SYMBOLGRAPH_H */

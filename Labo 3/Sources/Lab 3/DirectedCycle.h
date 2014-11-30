@@ -18,13 +18,13 @@ namespace ASD2 {
     private:
         const GraphType& g;
         bool hasCycle;
-        std::map<std::string, bool> onStack;
-        std::map<std::string, bool> marked;
+        std::vector<bool> onStack;
+        std::vector<bool> marked;
 
-        void dfs(std::string v) {
+        void dfs(int v) {
             onStack[v] = true;
 
-            for (std::string w: g.adjacent(v)) {
+            for (int w: g.adjacent(v)) {
                 if (hasCycle) {
                     return;
                 }
@@ -42,7 +42,7 @@ namespace ASD2 {
     public:
         // constructor
         DirectedCycle(const GraphType& G): g(G) {
-            dfs(g.name(0));
+            dfs(0);
         }
 
         //indique la presence d'un cycle

@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   ParcoursEnProfondeur.h
  * Author: Olivier Cuisenaire
  *
@@ -30,20 +30,20 @@ namespace ASD2 {
             visit(v, fpre, fpost);
         }
 
-        template <typename Func> 
+        template <typename Func>
         void visit(int v, Func f) {
             visit(v,f,[](int){});
         }
-        
-        template <typename FuncPre, typename FuncPost> 
+
+        template <typename FuncPre, typename FuncPost>
         void visit(int v, FuncPre fpre, FuncPost fpost) {
             marked.assign(g.V(), false);
             recursion(v, fpre, fpost);
         }
-                    
+
         template <typename Func>  void iterativeVisit(int v, Func f) {
             marked.assign(g.V(), false);
-           
+
             std::stack<int> pile;
             marked[v] = v;
             pile.push(v);
@@ -67,7 +67,7 @@ namespace ASD2 {
         template <typename FuncPre, typename FuncPost>  void recursion(int v, FuncPre fpre, FuncPost fpost) {
             fpre(v);
             marked[v] = true;
-            
+
             for (int w : g.adjacent(v))
                 if (!marked[w])
                     recursion(w, fpre, fpost);
