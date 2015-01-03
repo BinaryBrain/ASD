@@ -14,7 +14,10 @@
 #include <vector>
 #include <set>
 #include <functional>
+#include "IndexMinPQ.h"
 
+
+using namespace std;
 
 namespace ASD2 {
     
@@ -55,25 +58,88 @@ namespace ASD2 {
         // Renvoie la liste ordonnee des arcs constituant un chemin le plus court du
         // sommet source à v.
         Edges PathTo(int v) {
-            /* A IMPLEMENTER */
+            
+            RecursePath(v);
+            std::reverse(shortestPath.begin(),shortestPath.end());
+            return this->shortestPath;
+        }
+        
+    private:
+        
+        void RecursePath(int v){
+            this->shortestPath.push_back(this->edgeTo[v]);
+
+            if(v!=0)
+                RecursePath(this->edgeTo[v].From());
         }
 
     protected:
+        
         Edges edgeTo;
         Weights distanceTo;
+        Edges shortestPath;
     };
     
     // Classe a mettre en oeuvre au labo 4. S'inspirer de BellmaFordSP pour l'API
     
+        
     template<typename GraphType>
     class DijkstraSP : public ShortestPath<GraphType> {
-    public:
+        
+    private:
+        IndexMinPQ* pq;
         typedef ShortestPath<GraphType> BASE;
         typedef typename BASE::Edge Edge;
         typedef typename BASE::Weight Weight;
-
+       
+        // Relachement de l'arc e
+        void relax(const Edge& e) {
+            int v = e.From(), w = e.To();
+            Weight distThruE = this->distanceTo[v]+e.Weight();
+            
+            if(this->distanceTo[w] > distThruE) {
+                this->distanceTo[w] = distThruE;
+                this->edgeTo[w] = e;
+                
+                if(pq->contains(w)) // Améliorer la distance si clé existante
+                    pq->decreaseKey(w,distThruE);
+                else // sinon ajouter le sommet dans pq avec nouvelle distance
+                   pq->insert(w,distThruE); 
+            }
+        }
+        
+    public:    
         DijkstraSP(const GraphType& g, int v)  {
             /* A IMPLEMENTER */
+        
+            // Liste des arcs du chemin le plus court
+            this->edgeTo.reserve(g.V());
+            
+            //Ensemble de sommets pour lesquels la longueur du PCC est connue
+            this->distanceTo.assign(g.V(),std::numeric_limits<Weight>::max());
+                        
+            /* On utilise une que du priorité avec index. 
+             Queue de priorité (IndexMinPQ): Sert à améliorer la recherche du 
+             sommet dont sa distance est la plus courte distance depuis la source
+            
+             L'index:  permet d'améliorer le poids d'un sommet */
+            pq = new IndexMinPQ(g.V());
+            
+            // Initialisation du sommet source
+            this->edgeTo[v] = Edge(v,v,0);
+            this->distanceTo[v] = 0;
+          
+            // Ajout du sommet source (0) à la pq (priority queue)
+            pq->insert(0, 0);
+  
+            while(!pq->isEmpty()){
+                int v = pq->deleteMin(); // sommet de plus petite marque
+                
+                g.forEachAdjacentEdge(v, [&](const Edge& e) {
+                    this->relax(e);
+                });
+            }
+            
         }
     };
 

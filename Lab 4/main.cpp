@@ -21,7 +21,7 @@ using namespace std;
 // en passant par le reseau routier rn. Le critere a optimiser est la distance.
 
 void PlusCourtChemin(const string& depart, const string& arrivee, RoadNetwork& rn) {   
-    /* A IMPLEMENTER */
+    
 }
 
 // Calcule et affiche le plus rapide chemin de la ville depart a la ville arrivee via la ville "via"
@@ -63,6 +63,7 @@ void testShortestPath(string filename)
     
     cout << "Dijkstra:     " << double( clock() - startTime ) / (double)CLOCKS_PER_SEC<< " seconds." << endl;
 
+    
     for (int v=0; v<ewd.V(); ++v) {
         if (referenceSP.DistanceTo(v) != testSP.DistanceTo(v) ) {
             cout << "Oops: vertex" << v << " has " << referenceSP.DistanceTo(v) << " != " <<  testSP.DistanceTo(v) << endl;
