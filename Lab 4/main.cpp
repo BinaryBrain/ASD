@@ -14,6 +14,7 @@
 #include "RoadNetwork.h"
 #include "MinimumSpanningTree.h"
 #include "ShortestPath.h"
+#include "RoadDiGraphWrapper.h"
 
 using namespace std;
 
@@ -21,6 +22,9 @@ using namespace std;
 // en passant par le reseau routier rn. Le critere a optimiser est la distance.
 
 void PlusCourtChemin(const string& depart, const string& arrivee, RoadNetwork& rn) {   
+    
+    RoadDiGraphWrapper rdgw(rn); 
+    ASD2::DijkstraSP<RoadDiGraphWrapper> sp(rdgw, v);
     
 }
 
@@ -54,7 +58,7 @@ void testShortestPath(string filename)
     
     clock_t startTime = clock();
 
-    cout << "debut shortestPath\n" << endl;
+    cout << "Debut shortestPath\n" << endl;
     ASD2::BellmanFordQueueSP<Graph> referenceSP(ewd,0);
     
     cout << "Bellman-Ford: " << double( clock() - startTime ) / (double)CLOCKS_PER_SEC<< " seconds." << endl;
@@ -83,7 +87,7 @@ int main(int argc, const char * argv[]) {
     //testShortestPath("mediumEWD.txt");
     //testShortestPath("1000EWD.txt");
     //testShortestPath("10000EWD.txt");
-    testShortestPath("largeEWD.txt"); // disponible sur dossier du cours
+    //testShortestPath("largeEWD.txt"); // disponible sur dossier du cours
     
     RoadNetwork rn("reseau.txt");
     
