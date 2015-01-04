@@ -126,6 +126,7 @@ namespace ASD2 {
         void ReadFromStream(std::istream& s) {
             int V,E;
             
+            std::cout<< "Open : V = " << V << std::endl;
             s >> V >> E;
             
             edgeAdjacencyLists.resize(V);

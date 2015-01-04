@@ -54,9 +54,11 @@ void testShortestPath(string filename)
     
     clock_t startTime = clock();
 
+    cout << "debut shortestPath\n" << endl;
     ASD2::BellmanFordQueueSP<Graph> referenceSP(ewd,0);
     
     cout << "Bellman-Ford: " << double( clock() - startTime ) / (double)CLOCKS_PER_SEC<< " seconds." << endl;
+    
     startTime = clock();
 
     ASD2::DijkstraSP<Graph> testSP(ewd,0);
@@ -64,7 +66,7 @@ void testShortestPath(string filename)
     cout << "Dijkstra:     " << double( clock() - startTime ) / (double)CLOCKS_PER_SEC<< " seconds." << endl;
 
     
-    for (int v=0; v<ewd.V(); ++v) {
+   for (int v=0; v<ewd.V(); ++v) {
         if (referenceSP.DistanceTo(v) != testSP.DistanceTo(v) ) {
             cout << "Oops: vertex" << v << " has " << referenceSP.DistanceTo(v) << " != " <<  testSP.DistanceTo(v) << endl;
             ok = false;
@@ -77,11 +79,11 @@ void testShortestPath(string filename)
 
 int main(int argc, const char * argv[]) {
     
-    testShortestPath("tinyEWD.txt");
-    testShortestPath("mediumEWD.txt");
-    testShortestPath("1000EWD.txt");
-    testShortestPath("10000EWD.txt");
-    //testShortestPath("largeEWD.txt"); // disponible sur dossier du cours
+    //testShortestPath("tinyEWD.txt");
+    //testShortestPath("mediumEWD.txt");
+    //testShortestPath("1000EWD.txt");
+    //testShortestPath("10000EWD.txt");
+    testShortestPath("largeEWD.txt"); // disponible sur dossier du cours
     
     RoadNetwork rn("reseau.txt");
     
