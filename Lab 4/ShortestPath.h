@@ -62,6 +62,7 @@ namespace ASD2 {
         // Renvoie la liste ordonnee des arcs constituant un chemin le plus court du
         // sommet source à v.
         Edges PathTo(int v) {
+            shortestPath.clear();
             RecursePath(v);
             std::reverse(shortestPath.begin(), shortestPath.end());
             return this->shortestPath;
