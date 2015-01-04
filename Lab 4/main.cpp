@@ -44,11 +44,8 @@ void PlusCourtChemin(const string& depart, const string& arrivee, RoadNetwork& r
 
         totalLength += len;
 
-<<<<<<< HEAD
-        std::cout << "De " << from << " Ã  " << to << ": " << len << "km" << std::endl;
-=======
-        std::cout << "De " << from << " à " << to << ": " << len << "km." << std::endl;
->>>>>>> 23730809ca1b8ac9373c92d5250e4a8569840a9d
+        std::cout << "De " << from << " Ã  " << to << ": " << len << "km." << std::endl;
+
     }
 
     std::cout << "Distance totale: " << totalLength << "km." << std::endl << std::endl;
@@ -84,7 +81,7 @@ void PlusRapideChemin(const string& depart, const string& arrivee, const string&
         double len = edge->Weight();
         totalLength += len;
 
-        std::cout << "De " << from << " à " << to << ": " << len << " minutes." << std::endl;
+        std::cout << "De " << from << " Ã  " << to << ": " << len << " minutes." << std::endl;
     }
 
     for (std::vector<ASD2::WeightedDirectedEdge<double>>::iterator edge = edges2.begin(); edge != edges2.end(); edge++) {
@@ -94,7 +91,7 @@ void PlusRapideChemin(const string& depart, const string& arrivee, const string&
         double len = edge->Weight();
         totalLength += len;
 
-        std::cout << "De " << from << " à " << to << ": " << len << " minutes." << std::endl;
+        std::cout << "De " << from << " Ã  " << to << ": " << len << " minutes." << std::endl;
     }
 
     std::cout << "Temps total: " << totalLength << " minutes." << std::endl << std::endl;
@@ -124,10 +121,10 @@ void ReseauLeMoinsCher(RoadNetwork &rn) {
         std::string from = rn.cities.at(v).name;
         std::string to = rn.cities.at(w).name;
         
-        cout << from << " - " << to << " (" << T << ")" << endl;
+        cout << "De " << from << " Ã  " << to << " : " << T << " MF." << endl;
         cost += m.Weight();
     }
-    cout << "Cout des travaux: " << cost << endl;
+    cout << "Cout des travaux: " << cost << " MF." << endl;
     
 }
 
@@ -170,8 +167,8 @@ int main(int argc, const char * argv[]) {
 
     testShortestPath("tinyEWD.txt");
     testShortestPath("mediumEWD.txt");
-    //testShortestPath("1000EWD.txt");
-    //testShortestPath("10000EWD.txt");
+    testShortestPath("1000EWD.txt");
+    testShortestPath("10000EWD.txt");
     //testShortestPath("largeEWD.txt"); // disponible sur dossier du cours
 
     RoadNetwork rn("reseau.txt");
