@@ -1,12 +1,13 @@
 #ifndef ROADDIGRAPHWRAPPER_H
 #define ROADDIGRAPHWRAPPER_H
 
-// Wrapper destiné à créer un graph de routes
+// Wrapper destinï¿½ ï¿½ crï¿½er un graph de routes
 class RoadDiGraphWrapper {
 private:
 	RoadNetwork rn;
 
 public:
+    
 	typedef ASD2::WeightedDirectedEdge<double> Edge;
 	RoadDiGraphWrapper(const RoadNetwork rn2): rn(rn2) {}
 
@@ -26,6 +27,8 @@ public:
 			func(ASD2::WeightedDirectedEdge<double>(v, w, l));
 		}
 	}
+        
+       
 };
 
 #endif // ROADDIGRAPHWRAPPER_H
