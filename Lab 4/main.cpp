@@ -26,6 +26,10 @@ void PlusCourtChemin(const string& depart, const string& arrivee, RoadNetwork& r
     int v = rn.cityIdx.at(arrivee);
 
     RoadDiGraphWrapper rdgw(rn);
+    rdgw.setWeightFunc([](int l, double m){
+        return l;
+    });
+
     ASD2::DijkstraSP<RoadDiGraphWrapper> sp(rdgw, u);
 
     std::vector<ASD2::WeightedDirectedEdge<double>> edges = sp.PathTo(v);
@@ -39,10 +43,10 @@ void PlusCourtChemin(const string& depart, const string& arrivee, RoadNetwork& r
 
         totalLength += len;
 
-        std::cout << "De " << from << " à " << to << ": " << len << "km" << std::endl;
+        std::cout << "De " << from << " à " << to << ": " << len << "km." << std::endl;
     }
 
-    std::cout << "Distance totale: " << totalLength << std::endl << std::endl;
+    std::cout << "Distance totale: " << totalLength << "km." << std::endl << std::endl;
 }
 
 // Calcule et affiche le plus rapide chemin de la ville depart a la ville arrivee via la ville "via"
@@ -50,7 +54,45 @@ void PlusCourtChemin(const string& depart, const string& arrivee, RoadNetwork& r
 // sachant que l'on roule a 120km/h sur autoroute et 70km/h sur route normale.
 
 void PlusRapideChemin(const string& depart, const string& arrivee, const string& via, RoadNetwork& rn) {
-    /* A IMPLEMENTER */
+    int u = rn.cityIdx.at(via);
+    int v = rn.cityIdx.at(depart);
+    int w = rn.cityIdx.at(arrivee);
+
+    RoadDiGraphWrapper rdgw(rn);
+    rdgw.setWeightFunc([](int l, double m){
+        return (l * m / 120.0)*60.0 + (l * (1 - m) / 70.0)*60.0;
+    });
+
+    ASD2::DijkstraSP<RoadDiGraphWrapper> sp(rdgw, u);
+
+    std::vector<ASD2::WeightedDirectedEdge<double>> edges1 = sp.PathTo(v);
+    std::vector<ASD2::WeightedDirectedEdge<double>> edges2 = sp.PathTo(w);
+
+    double totalLength = 0;
+
+    // Inversion du chemin
+    std::reverse(edges1.begin(), edges1.end());
+    for (std::vector<ASD2::WeightedDirectedEdge<double>>::iterator edge = edges1.begin(); edge != edges1.end(); edge++) {
+        std::string from = rn.cities.at(edge->To()).name;
+        std::string to = rn.cities.at(edge->From()).name;
+
+        double len = edge->Weight();
+        totalLength += len;
+
+        std::cout << "De " << from << " à " << to << ": " << len << " minutes." << std::endl;
+    }
+
+    for (std::vector<ASD2::WeightedDirectedEdge<double>>::iterator edge = edges2.begin(); edge != edges2.end(); edge++) {
+        std::string from = rn.cities.at(edge->From()).name;
+        std::string to = rn.cities.at(edge->To()).name;
+
+        double len = edge->Weight();
+        totalLength += len;
+
+        std::cout << "De " << from << " à " << to << ": " << len << " minutes." << std::endl;
+    }
+
+    std::cout << "Temps total: " << totalLength << " minutes." << std::endl << std::endl;
 }
 
 // Calcule et affiche le plus reseau a renover couvrant toutes les villes le moins
