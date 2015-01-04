@@ -4,12 +4,21 @@
 // Wrapper destin� � cr�er un graph de routes
 class RoadDiGraphWrapper {
 private:
-	RoadNetwork rn;
+	RoadNetwork& rn;
+
+    std::function<double(int, double)> weightFunc = [](int l, double m) {
+        return l;
+    };
 
 public:
     
 	typedef ASD2::WeightedDirectedEdge<double> Edge;
-	RoadDiGraphWrapper(const RoadNetwork rn2): rn(rn2) {}
+	RoadDiGraphWrapper(RoadNetwork& rn2): rn(rn2) {}
+
+    template<typename Func>
+	void setWeightFunc(Func f) {
+        this->weightFunc = f;
+	}
 
 	int V() const {
 		return rn.cities.size();
@@ -22,9 +31,9 @@ public:
         for (std::vector<int>::iterator edge = edges.begin(); edge != edges.end(); edge++) {
 			std::pair<int, int> p = rn.roads.at(*edge).cities;
 			int w = (p.first != v) ? p.first : p.second;
-			int l = rn.roads.at(*edge).lenght;
+			int weight = weightFunc(rn.roads.at(*edge).lenght, rn.roads.at(*edge).motorway.Value());
 
-			func(ASD2::WeightedDirectedEdge<double>(v, w, l));
+			func(ASD2::WeightedDirectedEdge<double>(v, w, weight));
 		}
 	}
         
