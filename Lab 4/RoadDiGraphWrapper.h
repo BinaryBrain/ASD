@@ -1,6 +1,7 @@
 #ifndef ROADDIGRAPHWRAPPER_H
 #define ROADDIGRAPHWRAPPER_H
 
+// Wrapper destiné à créer un graph de routes
 class RoadDiGraphWrapper {
 private:
 	RoadNetwork rn;
