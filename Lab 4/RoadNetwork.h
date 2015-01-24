@@ -24,7 +24,7 @@
 
 class RoadNetwork {
 public:
-    
+
     // Classe fraction.
     struct Fraction {
     public:
@@ -33,7 +33,7 @@ public:
         Fraction(int n, int d) : numerator(n), denominator(d) { }
         double Value() const { return (numerator*1.0)/denominator; }
     };
-    
+
     // Classe City stocke le nom de la ville et l'indice des routes qui
     // en partent dans le tableau roads
     struct City {
@@ -41,30 +41,30 @@ public:
         std::string name;
         std::vector<int> roads;
     };
-    
+
     // Classe Road, stocke les indices dans cities des deux villes que la route lie,
     // la longueur en km, et la fraction d'autoroute sur ce trajet.
     struct Road {
     public:
         Road(int c1, int c2, int lenght, int num, int denom) :
         cities(std::make_pair(c1,c2)), lenght(lenght), motorway(Fraction(num,denom)) { }
-               
+
         std::pair<int,int> cities;
         int lenght;
         Fraction motorway;
     };
-    
+
     // vecteur des villes du reseau routier
     std::vector<City> cities;
-    
+
     // vecteur des routes du reseau routier.
     std::vector<Road> roads;
 
     // permet de trouver l'indice d'une ville dans cities par son nom.
     std::map<std::string,int> cityIdx;
-    
+
     int str2int(const std::string& s);
-    
+
     // affiche le reseau
     friend std::ostream& operator << (std::ostream& s, const RoadNetwork& rn) {
         for( auto r : rn.roads )
@@ -75,7 +75,7 @@ public:
             << std::endl;
         return s;
     }
-    
+
     // Constructeur avec nom de fichier.
     RoadNetwork(const std::string& filename);
 };
