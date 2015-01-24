@@ -2,7 +2,7 @@ Labo 1*
 *Thumbs.db
 *.DS_Store
 */bin
-*obj*
+*/obj
 *.depend
 *.cbp
 *.mk
