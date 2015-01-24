@@ -6,6 +6,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <algorithm>
 
 class Dictionary
 {
@@ -20,6 +21,7 @@ public:
 		std::ifstream s(filename);
 		while (std::getline(s, line))
 		{
+			std::transform(line.begin(), line.end(), line.begin(), ::tolower);
 			dictionary.insert(line);
 		}
 		s.close();
