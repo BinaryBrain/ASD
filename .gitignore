@@ -10,6 +10,8 @@ Labo 1*
 *.bash
 *.xml
 *.layout
+*.sdf
+*.vcxproj*
 Labo 2/Sources/Lab 2 - Ex 1/build/*
 Labo 2/Sources/Lab 2 - Ex 1/dist/*
 Labo 2/Sources/Lab 2 - Ex 3/build/*
@@ -19,5 +21,7 @@ Labo 2/Sources/Lab 2 - Ex 2/dist/*
 Labo 2/Sources/Lab 2 - Ex 1/nbproject*
 Labo 2/Sources/Lab 2 - Ex 2/nbproject*
 Labo 2/Sources/Lab 2 - Ex 3/nbproject*
+Labo 5/Debug
+Labo 5/Release
 *.o
 *.o.d
