@@ -12,23 +12,6 @@
 
 class CloseWords {
 public:
-    static std::unordered_set<std::string> getCloseWords(std::string str) {
-        std::unordered_set<std::string> words;
-
-        std::unordered_set<std::string> w1 = getCloseWordsToMany(str);
-        std::unordered_set<std::string> w2 = getCloseWordsMissing(str);
-        std::unordered_set<std::string> w3 = getCloseWordsWrong(str);
-        std::unordered_set<std::string> w4 = getCloseWordsSwap(str);
-
-        words.insert(w1.begin(), w1.end());
-        words.insert(w2.begin(), w2.end());
-        words.insert(w3.begin(), w3.end());
-        words.insert(w4.begin(), w4.end());
-
-        return words;
-    }
-
-private:
     static std::unordered_set<std::string> getCloseWordsToMany(std::string str) {
         std::unordered_set<std::string> words;
 
