@@ -1,7 +1,7 @@
 #ifndef TernarySearchTrie_h
 #define TernarySearchTrie_h
 
-template < typename KeyType, typename ValueType >
+template < typename KeyType>
 class TernarySearchTrie
 {
 private:
@@ -12,72 +12,76 @@ private:
 		Node* left;
 		Node* middle;
 		int nodeSize;
-		bool enOfWord;
-		Node(KeyType key) : key(key), enOfWord(false), right(nullptr), left(nullptr), middle(nullptr), nodeSize(1) { }
+		bool endOfWord;
+		Node(KeyType key) : key(key), endOfWord(false), right(nullptr), left(nullptr), middle(nullptr), nodeSize(1) { }
 	};
 
 	Node* root;
-
-public:
-	TernarySearchTrie() : root(nullptr){}
-
-
-	bool contains(const KeyType* key)
-	{
-		Node* x = root;
-		KeyType* k = key;
-
-		while (x != nullptr)
-		{
-			if (*k < x->key)
-			{
-				x = x->left;
-			}
-			else if (*k > x->key)
-			{
-				x = x->right;
-			}
-			else
-			{
-				if (*(k + 1) == nullptr)
-				{
-					return true;
-				}
-
-				k++;
-				x = x->middle;
-			}
-		}
-
-		return false;
-	}
 
 	void insert(Node* x, const KeyType* key)
 	{
 		if (x == nullptr)
 		{
-			*x = new Node(*key);
+			x = new Node(*key);
 		}
 
-		if (*(key) < (*x)->key)
+		if (*(key) < x->key)
 		{
-			insert(&((*x)->left), key);
+			insert(x->left, key);
 		}
-		else if (*(key) > (*x)->key)
+		else if (*(key) > x->key)
 		{
-			insert(&((*x)->right), key);
+			insert(x->right, key);
 		}
 		else
 		{
-			if (*(x + 1))
+			if (*(key + 1))
 			{
-				insert(&((*x)->middle), key + 1);
+				insert(x->middle, key + 1);
 			}
 			else
 			{
-				(*x)->endOfWord = true;
+				x->endOfWord = true;
 			}
 		}
+	}
+
+public:
+	TernarySearchTrie() : root(nullptr){}
+
+	void insert(const KeyType* key)
+	{
+		insert(root, key);
+	}
+
+	bool contains(const KeyType* key)
+	{
+		Node* x = root;
+		KeyType k = *key;
+
+		while (x != nullptr)
+		{
+			if (k < x->key)
+			{
+				x = x->left;
+			}
+			else if (k > x->key)
+			{
+				x = x->right;
+			}
+			else
+			{
+				if ((k + 1) == '\0')
+				{
+					return true;
+				}
+
+				k = *++key;
+				x = x->middle;
+			}
+		}
+
+		return false;
 	}
 
 };
