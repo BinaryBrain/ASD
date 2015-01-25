@@ -1,7 +1,7 @@
 #ifndef TernarySearchTrie_h
 #define TernarySearchTrie_h
 
-template < typename KeyType>
+template <typename KeyType>
 class TernarySearchTrie
 {
 private:
@@ -18,32 +18,30 @@ private:
 
 	Node* root;
 
-	void insert(Node* x, const KeyType* key)
+	Node* insert(Node* x, const KeyType* key)
 	{
 		if (x == nullptr)
 		{
 			x = new Node(*key);
 		}
 
-		if (*(key) < x->key)
+		if (*key < x->key)
 		{
-			insert(x->left, key);
+			x->left = insert(x->left, key);
 		}
 		else if (*(key) > x->key)
 		{
-			insert(x->right, key);
+			x->right = insert(x->right, key);
 		}
 		else
 		{
-			if (*(key + 1))
+			if (*key != 0)
 			{
-				insert(x->middle, key + 1);
-			}
-			else
-			{
-				x->endOfWord = true;
+				x->middle = insert(x->middle, ++key);
 			}
 		}
+
+		return x;
 	}
 
 public:
@@ -51,32 +49,30 @@ public:
 
 	void insert(const KeyType* key)
 	{
-		insert(root, key);
+		root = insert(root, key);
 	}
 
 	bool contains(const KeyType* key)
 	{
 		Node* x = root;
-		KeyType k = *key;
 
 		while (x != nullptr)
 		{
-			if (k < x->key)
+			if (*key < x->key)
 			{
 				x = x->left;
 			}
-			else if (k > x->key)
+			else if (*key > x->key)
 			{
 				x = x->right;
 			}
 			else
 			{
-				if ((k + 1) == '\0')
+				if (*key++ == 0)
 				{
 					return true;
 				}
 
-				k = *++key;
 				x = x->middle;
 			}
 		}

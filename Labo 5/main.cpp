@@ -49,6 +49,8 @@ int main() {
 	std::ifstream s("Data/input_multi.txt");
 
 	Dictionary d("Data/dictionary.txt", 0);
+	std::cout << d.checkWord("hello") << std::endl;
+	system("pause");
 
 	// Read the file line by line
 	while (std::getline(s, line))
