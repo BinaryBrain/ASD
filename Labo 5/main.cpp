@@ -51,7 +51,7 @@ int main() {
 	Dictionary d("Data/dictionary.txt", 0);
 	std::cout << d.checkWord("hello") << std::endl;
 	system("pause");
-	std::cout << std::string(d.findPartialMatches<char>("h.llo").at(0)) << std::endl;
+	std::cout << d.findPartialMatches("h.llo").at(0) << std::endl;
 	system("pause");
 
 	// Read the file line by line

@@ -13,7 +13,7 @@ class Dictionary
 {
 private:
 	std::set<std::string> dictionary_std;
-	TernarySearchTrie<char> dictionary_tst;
+	TernarySearchTrie dictionary_tst;
 
 	bool useStd;
 
@@ -50,8 +50,7 @@ public:
 		}
 	}
 
-	template <typename KeyType>
-	std::vector<KeyType*> findPartialMatches(const KeyType* word)
+	std::vector<char*> findPartialMatches(const char* word)
 	{
 		return dictionary_tst.partialMatches(word);
 	}

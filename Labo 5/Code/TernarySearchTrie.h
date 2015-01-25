@@ -1,25 +1,24 @@
 #ifndef TernarySearchTrie_h
 #define TernarySearchTrie_h
 
-template <typename KeyType>
 class TernarySearchTrie
 {
 private:
 	struct Node {
 	public:
-		KeyType key;
+		char key;
 		Node* right;
 		Node* left;
 		Node* middle;
 		int index;
-		Node(KeyType key) : key(key), right(nullptr), left(nullptr), middle(nullptr), index(-1) { }
+		Node(char key) : key(key), right(nullptr), left(nullptr), middle(nullptr), index(-1) { }
 	};
 
 	Node* root;
-	std::vector<char*> matches;
+	std::vector<int> matchesIndexes;
 	std::vector<Node*> nodeVector;
 
-	Node* insert(Node* x, const KeyType* key)
+	Node* insert(Node* x, const char* key)
 	{
 		if (x == nullptr)
 		{
@@ -45,7 +44,7 @@ private:
 		return x;
 	}
 
-	void partialMatches(Node* x, const KeyType* key)
+	void partialMatches(Node* x, const char* key)
 	{
 		if (!x) return;
 
@@ -62,7 +61,7 @@ private:
 		}
 		if (*key == 0 && x->key == 0)
 		{
-			//matches.push_back(x->index); TODO: trouver comment récupérer attribuer les index aux nodes.
+			matchesIndexes.push_back(x->index); //TODO: trouver comment récupérer attribuer les index aux nodes.
 		}
 		if (*key == '.' || *key > x->key)
 		{
@@ -70,20 +69,15 @@ private:
 		}
 	}
 
-	const KeyType* getKey(int index)
-	{
-		return index == -1 ? NULL : nodeVector[index]->key.c_str();
-	}
-
 public:
 	TernarySearchTrie() : root(nullptr){}
 
-	void insert(const KeyType* key)
+	void insert(const char* key)
 	{
 		root = insert(root, key);
 	}
 
-	bool contains(const KeyType* key)
+	bool contains(const char* key)
 	{
 		Node* x = root;
 
@@ -111,8 +105,10 @@ public:
 		return false;
 	}
 
-	std::vector<KeyType*> partialMatches(const KeyType* key)
+	std::vector<char*> partialMatches(const char* key)
 	{
+		std::vector<char*> matches;
+		//TODO: remplir matches
 		partialMatches(root, key);
 		return matches;
 	}
