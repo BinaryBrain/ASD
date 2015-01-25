@@ -12,7 +12,7 @@
 
 class CloseWords {
 public:
-    static std::unordered_set<std::string> getCloseWordsToMany(std::string str) {
+    static std::unordered_set<std::string> getToMany(std::string str) {
         std::unordered_set<std::string> words;
 
         for (int i = 0; i < str.size(); i++) {
@@ -24,7 +24,7 @@ public:
         return words;
     }
 
-    static std::unordered_set<std::string> getCloseWordsMissing(std::string str) {
+    static std::unordered_set<std::string> getMissing(std::string str) {
         std::unordered_set<std::string> words;
         std::string alphabet = "abcdefghijklmnopqrstuvwxyz'";
 
@@ -39,7 +39,7 @@ public:
         return words;
     }
 
-    static std::unordered_set<std::string> getCloseWordsWrong(std::string str) {
+    static std::unordered_set<std::string> getWrong(std::string str) {
         std::unordered_set<std::string> words;
         std::string alphabet = "abcdefghijklmnopqrstuvwxyz'";
 
@@ -56,7 +56,7 @@ public:
         return words;
     }
 
-    static std::unordered_set<std::string> getCloseWordsSwap(std::string str) {
+    static std::unordered_set<std::string> getSwap(std::string str) {
         std::unordered_set<std::string> words;
 
         for (int i = 0; i < str.size() - 1; i++) {

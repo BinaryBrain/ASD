@@ -5,13 +5,11 @@
 #include "Code/CloseWords.h"
 #include "Code/Dictionary.h"
 
-using namespace std;
-
 void checker(Dictionary *d, std::string toCheck) {
 	if (!d->checkWord(toCheck)) {
 		std::cout << "*" << toCheck << std::endl;
 		// Hypothèse 1
-		std::unordered_set<std::string> words1 = CloseWords::getCloseWordsToMany(toCheck);
+		std::unordered_set<std::string> words1 = CloseWords::getToMany(toCheck);
 		for (std::unordered_set<std::string>::iterator word = words1.begin(); word != words1.end(); word++) {
 			if (d->checkWord(*word)) {
 				std::cout << "1: " << *word << std::endl;
@@ -19,7 +17,7 @@ void checker(Dictionary *d, std::string toCheck) {
 		}
 
 		// Hypothèse 2
-		std::unordered_set<std::string> words2 = CloseWords::getCloseWordsMissing(toCheck);
+		std::unordered_set<std::string> words2 = CloseWords::getMissing(toCheck);
 		for (std::unordered_set<std::string>::iterator word = words2.begin(); word != words2.end(); word++) {
 			if (d->checkWord(*word)) {
 				std::cout << "2: " << *word << std::endl;
@@ -27,7 +25,7 @@ void checker(Dictionary *d, std::string toCheck) {
 		}
 
 		// Hypothèse 3
-		std::unordered_set<std::string> words3 = CloseWords::getCloseWordsWrong(toCheck);
+		std::unordered_set<std::string> words3 = CloseWords::getWrong(toCheck);
 		for (std::unordered_set<std::string>::iterator word = words3.begin(); word != words3.end(); word++) {
 			if (d->checkWord(*word)) {
 				std::cout << "3: " << *word << std::endl;
@@ -35,7 +33,7 @@ void checker(Dictionary *d, std::string toCheck) {
 		}
 
 		// Hypothèse 4
-		std::unordered_set<std::string> words4 = CloseWords::getCloseWordsSwap(toCheck);
+		std::unordered_set<std::string> words4 = CloseWords::getSwap(toCheck);
 		for (std::unordered_set<std::string>::iterator word = words4.begin(); word != words4.end(); word++) {
 			if (d->checkWord(*word)) {
 				std::cout << "4: " << *word << std::endl;
