@@ -5,14 +5,14 @@
 #include "Code/CloseWords.h"
 #include "Code/Dictionary.h"
 
-void checker(Dictionary *d, std::string toCheck) {
+void checker(Dictionary *d, std::string toCheck, std::ofstream *output) {
 	if (!d->checkWord(toCheck)) {
-		std::cout << "*" << toCheck << std::endl;
+		*output << "*" << toCheck << std::endl;
 		// Hypothèse 1
 		std::unordered_set<std::string> words1 = CloseWords::getToMany(toCheck);
 		for (std::unordered_set<std::string>::iterator word = words1.begin(); word != words1.end(); word++) {
 			if (d->checkWord(*word)) {
-				std::cout << "1: " << *word << std::endl;
+				*output << "1: " << *word << std::endl;
 			}
 		}
 
@@ -20,7 +20,7 @@ void checker(Dictionary *d, std::string toCheck) {
 		std::unordered_set<std::string> words2 = CloseWords::getMissing(toCheck);
 		for (std::unordered_set<std::string>::iterator word = words2.begin(); word != words2.end(); word++) {
 			if (d->checkWord(*word)) {
-				std::cout << "2: " << *word << std::endl;
+				*output << "2: " << *word << std::endl;
 			}
 		}
 
@@ -28,7 +28,7 @@ void checker(Dictionary *d, std::string toCheck) {
 		std::unordered_set<std::string> words3 = CloseWords::getWrong(toCheck);
 		for (std::unordered_set<std::string>::iterator word = words3.begin(); word != words3.end(); word++) {
 			if (d->checkWord(*word)) {
-				std::cout << "3: " << *word << std::endl;
+				*output << "3: " << *word << std::endl;
 			}
 		}
 
@@ -36,7 +36,7 @@ void checker(Dictionary *d, std::string toCheck) {
 		std::unordered_set<std::string> words4 = CloseWords::getSwap(toCheck);
 		for (std::unordered_set<std::string>::iterator word = words4.begin(); word != words4.end(); word++) {
 			if (d->checkWord(*word)) {
-				std::cout << "4: " << *word << std::endl;
+				*output << "4: " << *word << std::endl;
 			}
 		}
 	}
@@ -44,38 +44,60 @@ void checker(Dictionary *d, std::string toCheck) {
 
 int main() {
 	std::string line;
-	std::ifstream s("Data/input_multi.txt");
+	std::ifstream input("Data/input_sh.txt");
+	std::ofstream output("Data/output.txt");
 
-	Dictionary d("Data/dictionary.txt", 0);
+	Dictionary d("Data/dictionary.txt", 1);
 	std::cout << d.checkWord("hello") << std::endl;
 	system("pause");
 	std::cout << d.findPartialMatches("h.llo").at(0) << std::endl;
 	system("pause");
 
 	// Read the file line by line
-	while (std::getline(s, line))
+	while (std::getline(input, line))
 	{
 		std::transform(line.begin(), line.end(), line.begin(), ::tolower);
-		std::string alphabet = "abcdefghijklmnopqrstuvwxyz'";
+		std::string alphabet = "abcdefghijklmnopqrstuvwxyz";
 		std::string buffer;
 
 		// Lexer
-		for (char c : line) {
+		for (int i = 0; i < line.size(); i++)
+        {
+            char c = line.at(i);
 			std::size_t found = alphabet.find_first_of(c);
 
-			if (found == std::string::npos) {
-				if (!buffer.empty()) {
+            // Letter of the alphabet
+			if (found != std::string::npos)
+            {
+                buffer.push_back(c);
+			}
+			// Single quote
+			else if (c == '\'')
+            {
+			    // Not first char of word
+                if (!buffer.empty())
+                {
+                    // Not last char of word
+                    if (i < line.size()-1 && alphabet.find_first_of(line.at(i+1)) != std::string::npos)
+                    {
+                        buffer.push_back(c);
+                    }
+                }
+			}
+			// Other char
+			else
+			{
+			    if (!buffer.empty())
+			    {
 					// Check a word
-					checker(&d, buffer);
+					checker(&d, buffer, &output);
 					buffer = "";
 				}
-			}
-			else {
-				buffer.push_back(c);
 			}
 		}
 	}
 
-	s.close();
+	input.close();
+    output.close();
 	return 0;
 }
