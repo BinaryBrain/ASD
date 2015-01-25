@@ -11,10 +11,13 @@ private:
 		Node* right;
 		Node* left;
 		Node* middle;
-		Node(KeyType key) : key(key), right(nullptr), left(nullptr), middle(nullptr) { }
+		int index;
+		Node(KeyType key) : key(key), right(nullptr), left(nullptr), middle(nullptr), index(-1) { }
 	};
 
 	Node* root;
+	std::vector<char*> matches;
+	std::vector<Node*> nodeVector;
 
 	Node* insert(Node* x, const KeyType* key)
 	{
@@ -40,6 +43,36 @@ private:
 		}
 
 		return x;
+	}
+
+	void partialMatches(Node* x, const KeyType* key)
+	{
+		if (!x) return;
+
+		if (*key == '.' || *key < x->key)
+		{
+			partialMatches(x->left, key);
+		}
+		if (*key == '.' || *key == x->key)
+		{
+			if (x->key && *key)
+			{
+				partialMatches(x->middle, key + 1);
+			}
+		}
+		if (*key == 0 && x->key == 0)
+		{
+			//matches.push_back(x->index); TODO: trouver comment récupérer attribuer les index aux nodes.
+		}
+		if (*key == '.' || *key > x->key)
+		{
+			partialMatches(x->right, key);
+		}
+	}
+
+	const KeyType* getKey(int index)
+	{
+		return index == -1 ? NULL : nodeVector[index]->key.c_str();
 	}
 
 public:
@@ -78,6 +111,11 @@ public:
 		return false;
 	}
 
+	std::vector<KeyType*> partialMatches(const KeyType* key)
+	{
+		partialMatches(root, key);
+		return matches;
+	}
 };
 
 #endif

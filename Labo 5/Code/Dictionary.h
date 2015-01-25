@@ -49,6 +49,12 @@ public:
 			return dictionary_tst.contains(const_cast<char*>(word.c_str()));
 		}
 	}
+
+	template <typename KeyType>
+	std::vector<KeyType*> findPartialMatches(const KeyType* word)
+	{
+		return dictionary_tst.partialMatches(word);
+	}
 };
 
 #endif
