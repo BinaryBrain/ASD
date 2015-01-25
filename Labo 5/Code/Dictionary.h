@@ -56,7 +56,7 @@ public:
 	// pas implémenté
 	std::vector<char*> findPartialMatches(const char* word)
 	{
-		return dictionary_tst.partialMatches(word);
+		return dictionary_tst.wildCardMatch(word);
 	}
 };
 

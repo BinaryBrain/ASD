@@ -1,11 +1,18 @@
 // Léonard Berney, Sacha Bron
 
+/*
+ * Le choix de la structure de donnée STL s'est porté sur std::set. Cette structure présente l'avantage
+ * d'être un arbre binaire équilibré et ordonné, ce qui rend la recherche particulièrement rapide sans
+ * que l'insertion soit beaucoup plus lente que dans une autre structure.
+ */
+
 #include <iostream>
 #include <string>
 #include <unordered_set>
 #include <set>
 #include "Code/CloseWords.h"
 #include "Code/Dictionary.h"
+#include <time.h>
 
 void checker(Dictionary *d, std::string toCheck, std::ofstream *output) {
 	if (!d->checkWord(toCheck)) {
@@ -45,14 +52,20 @@ void checker(Dictionary *d, std::string toCheck, std::ofstream *output) {
 }
 
 int main() {
+	clock_t tick;
 	std::string line;
 	std::ifstream input("Data/input_sh.txt");
 	std::ofstream output("Data/output.txt");
 	
-	bool useSTD = 1; // 0 pour utiliser un tst 1 pour utiliser une structure stl
+	bool useSTD = 0; // 0 pour utiliser un tst 1 pour utiliser une structure stl
 
+	std::cout << "Lecture du dictionaire..." << std::endl;
+	tick = clock();
 	Dictionary d("Data/dictionary.txt", useSTD);
+	std::cout << "Temps de lecture: " << ((double)clock() - tick) / CLOCKS_PER_SEC << " sec." << std::endl;
 
+	std::cout << "Lecture et correction du texte..." << std::endl;
+	tick = clock();
 	// Read the file line by line
 	while (std::getline(input, line))
 	{
@@ -96,6 +109,8 @@ int main() {
 			}
 		}
 	}
+
+	std::cout << "Temps de correction: " << ((double)clock() - tick) / CLOCKS_PER_SEC << " sec." << std::endl;
 
 	input.close();
 	output.close();

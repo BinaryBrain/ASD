@@ -64,7 +64,7 @@ private:
 		}
 		if (*key == 0 && x->key == 0)
 		{
-			matchesIndexes.push_back(x->index); //TODO: trouver comment récupérer et attribuer les index aux nodes.
+			matchesIndexes.push_back(x->index); //TODO: trouver comment attribuer les index aux nodes.
 		}
 		if (*key == '.' || *key > x->key)
 		{
@@ -100,7 +100,6 @@ public:
 			{
 				if (*key++ == 0)
 				{
-					std::cout << x->index << std::endl;
 					return true;
 				}
 
@@ -112,7 +111,7 @@ public:
 	}
 
 	// pas implémenté
-	std::vector<char*> partialMatches(const char* key)
+	std::vector<char*> wildCardMatch(const char* key)
 	{
 		std::vector<char*> matches;
 		//TODO: remplir matches
