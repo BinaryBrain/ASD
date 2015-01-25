@@ -11,9 +11,7 @@ private:
 		Node* right;
 		Node* left;
 		Node* middle;
-		int nodeSize;
-		bool endOfWord;
-		Node(KeyType key) : key(key), endOfWord(false), right(nullptr), left(nullptr), middle(nullptr), nodeSize(1) { }
+		Node(KeyType key) : key(key), right(nullptr), left(nullptr), middle(nullptr) { }
 	};
 
 	Node* root;
