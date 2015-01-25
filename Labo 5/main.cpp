@@ -1,3 +1,5 @@
+// Léonard Berney, Sacha Bron
+
 #include <iostream>
 #include <string>
 #include <unordered_set>
@@ -46,12 +48,10 @@ int main() {
 	std::string line;
 	std::ifstream input("Data/input_sh.txt");
 	std::ofstream output("Data/output.txt");
+	
+	bool useSTD = 1; // 0 pour utiliser un tst 1 pour utiliser une structure stl
 
-	Dictionary d("Data/dictionary.txt", 1);
-	std::cout << d.checkWord("hello") << std::endl;
-	system("pause");
-	std::cout << d.findPartialMatches("h.llo").at(0) << std::endl;
-	system("pause");
+	Dictionary d("Data/dictionary.txt", useSTD);
 
 	// Read the file line by line
 	while (std::getline(input, line))
@@ -62,33 +62,33 @@ int main() {
 
 		// Lexer
 		for (int i = 0; i < line.size(); i++)
-        {
-            char c = line.at(i);
+		{
+			char c = line.at(i);
 			std::size_t found = alphabet.find_first_of(c);
 
-            // Letter of the alphabet
+			// Letter of the alphabet
 			if (found != std::string::npos)
-            {
-                buffer.push_back(c);
+			{
+				buffer.push_back(c);
 			}
 			// Single quote
 			else if (c == '\'')
-            {
-			    // Not first char of word
-                if (!buffer.empty())
-                {
-                    // Not last char of word
-                    if (i < line.size()-1 && alphabet.find_first_of(line.at(i+1)) != std::string::npos)
-                    {
-                        buffer.push_back(c);
-                    }
-                }
+			{
+				// Not first char of word
+				if (!buffer.empty())
+				{
+					// Not last char of word
+					if (i < line.size()-1 && alphabet.find_first_of(line.at(i+1)) != std::string::npos)
+					{
+						buffer.push_back(c);
+					}
+				}
 			}
 			// Other char
 			else
 			{
-			    if (!buffer.empty())
-			    {
+				if (!buffer.empty())
+				{
 					// Check a word
 					checker(&d, buffer, &output);
 					buffer = "";
@@ -98,6 +98,6 @@ int main() {
 	}
 
 	input.close();
-    output.close();
+	output.close();
 	return 0;
 }

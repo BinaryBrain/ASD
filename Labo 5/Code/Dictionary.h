@@ -1,3 +1,5 @@
+// Léonard Berney, Sacha Bron
+
 #ifndef Dictionary_h
 #define Dictionary_h
 
@@ -38,6 +40,7 @@ public:
 		s.close();
 	}
 
+	// vérifie si un mot est dans le dictionaire 
 	bool checkWord(const std::string& word)
 	{
 		if (useStd)
@@ -50,6 +53,7 @@ public:
 		}
 	}
 
+	// pas implémenté
 	std::vector<char*> findPartialMatches(const char* word)
 	{
 		return dictionary_tst.partialMatches(word);

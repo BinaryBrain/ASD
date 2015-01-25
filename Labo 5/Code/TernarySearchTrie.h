@@ -1,3 +1,5 @@
+// Léonard Berney, Sacha Bron
+
 #ifndef TernarySearchTrie_h
 #define TernarySearchTrie_h
 
@@ -10,14 +12,14 @@ private:
 		Node* right;
 		Node* left;
 		Node* middle;
-		int index;
+		int index; // pas implémenté
 		Node(char key) : key(key), right(nullptr), left(nullptr), middle(nullptr), index(-1) { }
 	};
 
 	Node* root;
-	std::vector<int> matchesIndexes;
-	std::vector<Node*> nodeVector;
+	std::vector<int> matchesIndexes; // pas implémenté
 
+	// ajoute un mot dans l'arbre en commençant au noeud donné
 	Node* insert(Node* x, const char* key)
 	{
 		if (x == nullptr)
@@ -44,6 +46,7 @@ private:
 		return x;
 	}
 
+	// implémentation pas terminée
 	void partialMatches(Node* x, const char* key)
 	{
 		if (!x) return;
@@ -61,7 +64,7 @@ private:
 		}
 		if (*key == 0 && x->key == 0)
 		{
-			matchesIndexes.push_back(x->index); //TODO: trouver comment récupérer attribuer les index aux nodes.
+			matchesIndexes.push_back(x->index); //TODO: trouver comment récupérer et attribuer les index aux nodes.
 		}
 		if (*key == '.' || *key > x->key)
 		{
@@ -72,11 +75,13 @@ private:
 public:
 	TernarySearchTrie() : root(nullptr){}
 
+	// ajoute un mot dans l'arbre
 	void insert(const char* key)
 	{
 		root = insert(root, key);
 	}
 
+	// vérifie si un mot est contenu dans l'arbre
 	bool contains(const char* key)
 	{
 		Node* x = root;
@@ -95,6 +100,7 @@ public:
 			{
 				if (*key++ == 0)
 				{
+					std::cout << x->index << std::endl;
 					return true;
 				}
 
@@ -105,6 +111,7 @@ public:
 		return false;
 	}
 
+	// pas implémenté
 	std::vector<char*> partialMatches(const char* key)
 	{
 		std::vector<char*> matches;
